@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 export default function PaginatedItems(props) {
-  const { data } = props;
-  const { getActiveImg, toggleModal } = props;
+  const { data, getActiveImg, toggleModal } = props;
 
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -19,8 +18,7 @@ export default function PaginatedItems(props) {
   }, [itemOffset, itemsPerPage, data]);
 
   const handlePageClick = event => {
-    const newOffset =
-      (event.selected * itemsPerPage) % data.length;
+    const newOffset = (event.selected * itemsPerPage) % data.length;
 
     setItemOffset(newOffset);
     window.scrollTo({

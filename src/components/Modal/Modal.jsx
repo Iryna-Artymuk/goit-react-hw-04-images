@@ -1,50 +1,45 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import css from './Modal.module.css';
 
 import { AiOutlineClose } from 'react-icons/ai';
 import IconButton from '../IconButton/IconButton';
 const modalRoot = document.querySelector('#modal-root');
-class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.closeOnESC);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.closeOnESC);
-  }
-
-  closeOnESC = event => {
-    if (event.code === 'Escape') {
-      this.props.toggleModal();
-    }
-  };
-  closeOnBackdropClick = event => {
+export default function Modal({ toggleModal, children }) {
+  const closeOnBackdropClick = event => {
     if (event.target === event.currentTarget) {
-      this.props.toggleModal();
+      toggleModal();
     }
   };
 
-  render() {
-    return createPortal(
-      <div
-        className={css.Overlay}
-        onClick={this.closeOnBackdropClick}
-      >
-        <div className={css.Modal}>
-          {this.props.children}
+  useEffect(() => {
+    const closeOnESC = event => {
+      if (event.code === 'Escape') {
+        toggleModal();
+      }
+    };
+    window.addEventListener('keydown', closeOnESC);
 
-          <IconButton
-            onClick={this.props.toggleModal}
-            aria-label="close"
-          >
-            <AiOutlineClose />
-          </IconButton>
-        </div>
-      </div>,
-      modalRoot
-    );
-  }
+    return window.removeEventListener('keydown', closeOnESC);
+  }, [toggleModal]);
+
+  // componentDidMount() {
+  //   window.addEventListener('keydown', this.closeOnESC);
+  // }
+
+  // componentWillUnmount() {
+  //   window.removeEventListener('keydown', this.closeOnESC);
+  // }
+
+  return (
+    <div className={css.Overlay} onClick={closeOnBackdropClick}>
+      <div className={css.Modal}>
+        {children}
+
+        <IconButton onClick={toggleModal} aria-label="close">
+          <AiOutlineClose />
+        </IconButton>
+      </div>
+    </div>
+  );
 }
-
-export default Modal;

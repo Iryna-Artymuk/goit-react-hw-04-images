@@ -36,9 +36,7 @@ class App extends Component {
         .then(resp => {
           console.log(resp.status);
           if (resp.status !== 200) {
-            return Promise.reject(
-              new Error(`something went wrong :(`)
-            );
+            return Promise.reject(new Error(`something went wrong :(`));
           }
 
           return resp.json();
@@ -49,30 +47,19 @@ class App extends Component {
               theme: 'dark',
             });
 
-            return Promise.reject(
-              new Error(`images not found `)
-            );
+            return Promise.reject(new Error(`images not found `));
           }
           this.setState(prevState => ({
-            images: [
-              ...prevState.images,
-              ...imagesData.hits,
-            ],
+            images: [...prevState.images, ...imagesData.hits],
           }));
         })
-        .catch(Error =>
-          this.setState({ error: Error.message })
-        )
-        .finally(() =>
-          this.setState({ searchValue: '', loading: false })
-        );
+        .catch(Error => this.setState({ error: Error.message }))
+        .finally(() => this.setState({ searchValue: '', loading: false }));
     }
   }
   //
   getActiveImg = id => {
-    const activeImg = this.state.images.find(
-      image => image.id === id
-    );
+    const activeImg = this.state.images.find(image => image.id === id);
     if (activeImg.id === id) {
       this.setState({
         activeImgUrl: activeImg.largeImageURL,
@@ -102,10 +89,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ToastContainer
-          autoClose={2000}
-          hideProgressBar={false}
-        />
+        <ToastContainer autoClose={2000} hideProgressBar={false} />
         <Searchbar handelSubmit={this.handelSubmit} />
         {this.state.loading && <Loading />}
 
@@ -125,19 +109,13 @@ class App extends Component {
             getActiveImg={this.getActiveImg}
           />
           {this.state.images.length > 0 && (
-            <Button
-              type="button"
-              LoadMore
-              onClick={this.loadMore}
-            >
+            <Button type="button" LoadMore onClick={this.loadMore}>
               Load more
             </Button>
           )}
         </div>
 
-        {this.state.error && (
-          <ErrorView errorText={this.state.error} />
-        )}
+        {this.state.error && <ErrorView errorText={this.state.error} />}
         {this.state.modalActive && (
           <Modal toggleModal={this.toggleModal}>
             <img src={this.state.activeImgUrl} alt="" />
