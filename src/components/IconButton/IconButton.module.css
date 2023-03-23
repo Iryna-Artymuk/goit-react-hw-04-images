@@ -1,0 +1,33 @@
+.Iconbutton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  /* top: ${props => {
+    if (props.type === 'modal') {
+      return '10px';
+    }
+  
+  }};
+  right: ${props => {
+    if (props.type === 'modal') {
+      return '10px';
+    }
+   
+  }}; */
+  background-color: transparent;
+}
+
+.Iconbutton svg {
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: white;
+}
+.Iconbutton svg :hover,
+.Iconbutton svg :focus {
+  fill: red;
+  stroke: red;
+  font-weight: 700;
+}
