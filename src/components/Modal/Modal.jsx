@@ -7,21 +7,31 @@ import IconButton from '../IconButton/IconButton';
 // const modalRoot = document.querySelector('#modal-root');
 export default function Modal({ toggleModal, children }) {
   const closeOnBackdropClick = event => {
-    if (event.target === event.currentTarget) {
-      toggleModal();
-    }
+    console.log(event.target === event.currentTarget);
+    if (event.target === event.currentTarget) toggleModal();
   };
 
   useEffect(() => {
-    const closeOnESC = event => {
-      if (event.code === 'Escape') {
-        toggleModal();
-      }
+    const handleEscKeyDown = event => {
+      if (event.code === 'Escape') toggleModal();
     };
-    window.addEventListener('keydown', closeOnESC);
-
-    return window.removeEventListener('keydown', closeOnESC);
+    window.addEventListener('keydown', handleEscKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleEscKeyDown);
+    };
   }, [toggleModal]);
+
+  // useEffect(() => {
+  //   const closeOnESC = event => {
+  //     console.log(event.code);
+  //     if (event.code === 'Escape') {
+  //       return toggleModal();
+  //     }
+  //   };
+  //   window.addEventListener('keydown', closeOnESC);
+
+  //   return window.removeEventListener('keydown', closeOnESC);
+  // }, [toggleModal]);
 
   // componentDidMount() {
   //   window.addEventListener('keydown', this.closeOnESC);
