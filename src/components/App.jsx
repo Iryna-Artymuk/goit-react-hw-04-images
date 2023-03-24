@@ -20,7 +20,7 @@ export function App() {
   const [activeImgUrl, setActiveImgUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  console.log(page);
   useEffect(() => {
     if (searchValue === '') {
       return;
@@ -30,7 +30,7 @@ export function App() {
       setLoading(true);
       try {
         const imagesData = await fetchImages(searchValue, page);
-
+        console.log(page);
         if (imagesData.hits.length === 0) {
           toast.error("We didn't find any images", {
             theme: 'dark',
@@ -46,7 +46,7 @@ export function App() {
         setLoading(false);
       }
     }
-    getImages(searchValue, page);
+    getImages();
   }, [images, page, searchValue]);
 
   //   if (
@@ -95,7 +95,6 @@ export function App() {
   };
 
   const loadMore = () => {
-    console.log(page);
     setPage(() => page + 1);
   };
 
