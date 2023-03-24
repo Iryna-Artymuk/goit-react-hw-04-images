@@ -91,7 +91,7 @@ export function App() {
   };
 
   const loadMore = () => {
-    setPage(page + 1);
+    setPage(prevPage => prevPage + 1);
   };
 
   // Отримуєм значення фоми
