@@ -20,7 +20,7 @@ export function App() {
   const [activeImgUrl, setActiveImgUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // console.log(searchValue);
+
   useEffect(() => {
     if (searchValue === '') {
       return;
@@ -132,7 +132,7 @@ export function App() {
           </Button>
         )}
       </div>
-      {error && <ErrorView />}
+      {error && <ErrorView text={error} />}
       {modalActive && (
         <Modal toggleModal={toggleModal}>
           <img src={activeImgUrl} alt="" />

@@ -13,6 +13,6 @@ export default async function fetchImages(searchValue, page) {
       per_page: 50,
     },
   });
-  console.log(response);
+  //   console.log(response);
   return response.data;
 }
