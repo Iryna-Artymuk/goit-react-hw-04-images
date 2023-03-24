@@ -21,13 +21,14 @@ export function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   console.log(page);
+
   useEffect(() => {
     if (searchValue === '') {
       return;
     }
+    setLoading(true);
 
-    async function getImages() {
-      setLoading(true);
+    const getImages = async () => {
       try {
         const imagesData = await fetchImages(searchValue, page);
         console.log(page);
@@ -45,7 +46,7 @@ export function App() {
         setSearchValue('');
         setLoading(false);
       }
-    }
+    };
     getImages();
   }, [images, page, searchValue]);
 
