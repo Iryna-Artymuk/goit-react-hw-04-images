@@ -12,8 +12,6 @@ import ErrorView from './Error/ErrorView';
 import fetchImages from '../API/ImagesAPI';
 // import { GallerySceleton } from '../components/ImageGallery/GallerySceleton/GallarySceleton';
 
-const KEY = '32771968-7fd567c901afb84ab6320145c';
-
 export function App() {
   const [searchValue, setSearchValue] = useState('');
   const [modalActive, setModalActive] = useState(false);
