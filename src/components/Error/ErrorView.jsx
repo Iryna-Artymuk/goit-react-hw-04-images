@@ -1,6 +1,5 @@
 import errorImage from './errorImage.png';
-function ErrorView({ errorText }) {
-  console.log(errorText);
+function ErrorView() {
   return (
     <div
       style={{
@@ -16,7 +15,7 @@ function ErrorView({ errorText }) {
         fontSize: 24,
       }}
     >
-      <p>{`we are sorry, ${errorText}  try again`}</p>
+      <p>{`We are sorry, something went wrong, try again`}</p>
       <img src={errorImage} width="100%" alt="error" />
     </div>
   );

@@ -7,7 +7,6 @@ import IconButton from '../IconButton/IconButton';
 // const modalRoot = document.querySelector('#modal-root');
 export default function Modal({ toggleModal, children }) {
   const closeOnBackdropClick = event => {
-    console.log(event.target === event.currentTarget);
     if (event.target === event.currentTarget) toggleModal();
   };
 
