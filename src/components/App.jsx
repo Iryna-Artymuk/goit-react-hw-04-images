@@ -25,10 +25,12 @@ export function App() {
     if (searchValue === '') {
       return;
     }
-    setLoading(true);
 
-    fetchImages(searchValue, page)
-      .then(imagesData => {
+    async function getImages() {
+      setLoading(true);
+      try {
+        const imagesData = await fetchImages(searchValue, page);
+
         if (imagesData.hits.length === 0) {
           toast.error("We didn't find any images", {
             theme: 'dark',
@@ -37,12 +39,14 @@ export function App() {
           return Promise.reject(new Error(`images not found `));
         }
         setImages([...images, ...imagesData.hits]);
-      })
-      .catch(Error => setError(Error.message))
-      .finally(() => {
+      } catch (Error) {
+        setError(Error.message);
+      } finally {
         setSearchValue('');
         setLoading(false);
-      });
+      }
+    }
+    getImages(searchValue, page);
   }, [images, page, searchValue]);
 
   //   if (
@@ -91,7 +95,8 @@ export function App() {
   };
 
   const loadMore = () => {
-    setPage(prevPage => prevPage + 1);
+    console.log(page);
+    setPage(() => page + 1);
   };
 
   // Отримуєм значення фоми
