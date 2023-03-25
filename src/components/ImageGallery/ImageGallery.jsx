@@ -9,9 +9,22 @@ export default function PaginatedItems(props) {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+
+  const [remountComponent, setRemountComponent] = useState(0);
+  // використовується щоб перезаписати активну сторінку коли
+  //приходить масив з новими зображеннями
+  // інші рішення https://github.com/AdeleD/react-paginate/issues/198
+
   const itemsPerPage = 12;
+  useEffect(() => {
+    setItemOffset(0);
+    setRemountComponent(Math.random());
+    // setCurrentItems([]);
+  }, [data]);
 
   useEffect(() => {
+    console.log(itemOffset);
+
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(data.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(data.length / itemsPerPage));
@@ -29,7 +42,7 @@ export default function PaginatedItems(props) {
   };
 
   return (
-    <>
+    <div key={remountComponent}>
       <ul className={css.ImageGallery}>
         {currentItems.map(({ id, webformatURL, tags }) => (
           <ImageGalleryItem
@@ -59,9 +72,9 @@ export default function PaginatedItems(props) {
         breakClassName
         breakLinkClassNam
         containerClassName={css.pagination}
-        // activeClassName={css.active}
+        activeClassName={css.active}
         renderOnZeroPageCount={null}
       />
-    </>
+    </div>
   );
 }
