@@ -20,18 +20,14 @@ export function App() {
   const [activeImgUrl, setActiveImgUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  console.log(page);
 
   useEffect(() => {
-    if (searchValue === '') {
-      return;
-    }
+    if (!searchValue) return;
     setLoading(true);
-
     const getImages = async () => {
       try {
         const imagesData = await fetchImages(searchValue, page);
-        console.log(page);
+
         if (imagesData.hits.length === 0) {
           toast.error("We didn't find any images", {
             theme: 'dark',
@@ -39,52 +35,20 @@ export function App() {
 
           return Promise.reject(new Error(`images not found `));
         }
-        setImages([...images, ...imagesData.hits]);
+        setImages(prevImages => [...prevImages, ...imagesData.hits]);
+        // setImages([...images, ...imagesData.hits]);
+        // тут помилка бо по сабміту я скидала images до []і пустий масив писала в стейт
+        // також обнулати масив треба не по сабміту а коли змінилось searchValue
+        // використовувати useEffect щоб відслідкувати
       } catch (Error) {
         setError(Error.message);
       } finally {
-        setSearchValue('');
         setLoading(false);
       }
     };
     getImages();
-  }, [images, page, searchValue]);
+  }, [page, searchValue]);
 
-  //   if (
-  //     prevState.searchValue !== this.state.searchValue ||
-  //     prevState.page !== this.state.page
-  //   ) {
-  //     this.setState({
-  //       loading: true,
-  //     });
-  //     fetch(
-  //       ` https://pixabay.com/api/?q=${this.state.searchValue}&key=${KEY}&page=${this.state.page}&image_type=photo&orientation=horizontal&per_page=50`
-  //     )
-  //       .then(resp => {
-  //         console.log(resp.status);
-  //         if (resp.status !== 200) {
-  //           return Promise.reject(new Error(`something went wrong :(`));
-  //         }
-
-  //         return resp.json();
-  //       })
-  //       .then(imagesData => {
-  //         if (imagesData.hits.length === 0) {
-  //           toast.error("We didn't find any images", {
-  //             theme: 'dark',
-  //           });
-
-  //           return Promise.reject(new Error(`images not found `));
-  //         }
-  //         this.setState(prevState => ({
-  //           images: [...prevState.images, ...imagesData.hits],
-  //         }));
-  //       })
-  //       .catch(Error => this.setState({ error: Error.message }))
-  //       .finally(() => this.setState({ searchValue: '', loading: false }));
-  //   }
-  // }
-  //
   const getActiveImg = id => {
     const activeImg = images.find(image => image.id === id);
     if (activeImg.id === id) {
@@ -101,14 +65,33 @@ export function App() {
 
   // Отримуєм значення фоми
   const handelSubmit = value => {
-    setSearchValue(value);
+    // console.log(value);
+    // console.log(searchValue);
+    // console.log(value !== searchValue);
+    if (value !== searchValue) {
+      setSearchValue(value);
+    } else {
+      toast.error(`${value} already displayed`, {
+        theme: 'dark',
+      });
+    }
+
+    // setModalActive(false);
+    // setImages([]);
+    // setPage(1);
+    // setActiveImgUrl('');
+    // setLoading(false);
+    // setError(null);
+  };
+
+  useEffect(() => {
     setModalActive(false);
     setImages([]);
     setPage(1);
     setActiveImgUrl('');
-    setLoading(false);
+    // setLoading(false);
     setError(null);
-  };
+  }, [searchValue]);
 
   return (
     <div>
