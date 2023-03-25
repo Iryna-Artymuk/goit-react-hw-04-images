@@ -83,7 +83,7 @@ export function App() {
     // setLoading(false);
     // setError(null);
   };
-
+  // скинути стейт коли міняється значення  searchValue
   useEffect(() => {
     setModalActive(false);
     setImages([]);
